@@ -1,0 +1,139 @@
+---
+title: "Class-2 Participation"
+author: "Pavan Hothi"
+date: "1/20/2020"
+output:
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#install.packages("gapminder")
+library(gapminder) 
+library(tidyverse)
+
+#install.packages("ggthemes")
+library(ggthemes)
+```
+
+```{r}
+data("gapminder")
+
+str(gapminder)
+
+options(scipen = 999)
+
+```
+
+
+```{r}
+
+ggplot(data = gapminder, mapping = aes(x = year, y = pop, color = continent)) +
+  geom_point()
+
+
+```
+Aggregate by continent. 
+
+
+```{r}
+gapminder %>%
+  group_by(year, continent) %>%
+  summarise(pop = sum(pop)) %>%
+  ggplot(data = ., mapping = aes(x = year, y= pop, color = continent)) +
+  geom_point() +
+  scale_y_log10()
+
+
+```
+
+
+
+```{r}
+gapminder %>%
+  filter(continent == "Asia") %>%
+ggplot(data = gapminder, mapping = aes(x= year, y = gdpPercap, color = country)) +
+  geom_point() +
+  facet_wrap(~continent)
+  
+
+
+```
+
+
+Try two numeric values
+
+```{r}
+ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  geom_point() +
+  scale_x_log10() +
+  stat_smooth(method = "lm")
+
+```
+
+Changing mapping for populaiton 
+
+```{r}
+#This is useless but shows how th eshape works 
+gapminder %>% 
+  filter(continent == "Europe") %>%
+  group_by(country) %>%
+  summarise(gdpPercap = mean(gdpPercap),
+            lifeExp = mean(lifeExp)) %>%
+ggplot(data = ., aes(x = gdpPercap, y = lifeExp, country = country)) +
+  geom_point() +
+  scale_x_log10() +
+  stat_smooth(method = "lm")
+
+
+```
+
+
+Back to square one
+
+```{r}
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp, linetype = country)) +
+  geom_point(alpha = .4) +
+  scale_x_log10() +
+  stat_smooth(method = "lm") +
+  facet_wrap(~continent) +
+  xlab("GDP per Capita") +
+  ylab("Life Expectancy") +
+ggtitle("Life Expectancy By GDP per Capita", subtitle = "Faceted By Continent")
+
+
+```
+
+
+Getting weird again
+
+```{r}
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp, linetype = country)) +
+  geom_point(alpha = .4) +
+  scale_x_log10() +
+  stat_smooth(method = "lm") +
+  facet_wrap(~continent) +
+  xlab("GDP per Capita") +
+  ylab("Life Expectancy") +
+ggtitle("Life Expectancy By GDP per Capita", subtitle = "Faceted By Continent") +
+  coord_flip()
+
+gapminder %>%
+ggplot(data = ., mapping = aes(x = continent, y = lifeExp)) +
+  stat_summary(fun.ymin = min,
+               fun.ymax = max, 
+               fun.y = median,
+               alpha = .9) +
+  geom_boxplot() +
+  geom_point() +
+  coord_flip() +
+  theme_classic()
+
+
+```
+
