@@ -1,0 +1,76 @@
+---
+
+title: "Class 4 Participation"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+    storyboard: true
+
+---
+
+
+```{r setup, include=FALSE}
+
+library(flexdashboard)
+library(tidyverse)
+library(shiny)
+library(htmltools)
+library(shinydashboard)
+library(ggplot2)
+
+
+```
+
+
+
+### Chart A
+
+
+
+```{r}
+
+DT::datatable(mtcars, options = list(
+  bPaginate = FALSE)
+  )
+
+
+```
+
+
+
+Column {data-width=350}
+
+-----------------------------------------------------------------------
+
+
+
+### Chart B
+
+
+
+```{r}
+
+
+
+
+
+```
+
+
+
+### Chart C
+
+
+
+```{r}
+
+
+
+
+
+```
+
+
+
+
